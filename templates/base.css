@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-background: #e1c4a6;
+}
+
+:root.dark {
+  --color-background: #372d29;
+}
+
+body {
+  background-color: var(--color-background);
+  font-family: "Inter", sans-serif;
+}

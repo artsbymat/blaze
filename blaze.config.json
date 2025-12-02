@@ -1,0 +1,12 @@
+{
+  "pageTitle": "Blaze",
+  "pageTitleSuffix": " - SSG",
+  "locale": "en-US",
+  "baseURL": "blaze.rhmt.my.id",
+  "ignorePatterns": [
+    ".obsidian",
+    "Bases",
+    "Templates"
+  ],
+  "publishMode": "explicit"
+}

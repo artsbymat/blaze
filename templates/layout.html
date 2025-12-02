@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.PageTitle}}{{.PageTitleSuffix}}</title>
+    <link rel="stylesheet" href="{{.BaseStyle}}">
+</head>
+<body>
+    <aside id="left-sidebar">
+        <div id="logo">{{.PageTitle}}</div>
+        <div>{{.Explorer}}</div>
+    </aside>
+    <main>
+    <article>
+        {{.Content}}
+    </article>
+    </main>
+    <aside id="right-sidebar">
+        <div>{{.GraphView}}</div>
+        <div>{{.TableOfContent}}</div>
+        <div>{{.Backlinks}}</div>
+    </aside>
+    <footer>
+        <p>Powered by <a href="https://github.com/artsbymat/blaze">Blaze</a></p>
+    </footer>
+</body>
+</html>
