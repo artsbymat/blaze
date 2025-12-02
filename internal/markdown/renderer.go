@@ -30,6 +30,7 @@ func (r *Renderer) Render(page *Page) (string, error) {
 	data := map[string]interface{}{
 		"PageTitle":       r.config.PageTitle,
 		"PageTitleSuffix": r.config.PageTitleSuffix,
+		"Locale":          r.config.Locale,
 		"BaseStyle":       "/base.css",
 		"Content":         template.HTML(page.Content),
 		"Explorer":        "",
