@@ -27,14 +27,3 @@ func Load(path string) (*Config, error) {
 
 	return &cfg, nil
 }
-
-func Default() *Config {
-	return &Config{
-		PageTitle:       "Blaze",
-		PageTitleSuffix: " - SSG",
-		Locale:          "en-US",
-		BaseURL:         "blaze.rhmt.my.id",
-		IgnorePatterns:  []string{".obsidian", "Bases", "Templates"},
-		PublishMode:     "explicit",
-	}
-}
