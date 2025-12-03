@@ -9,6 +9,7 @@ import (
 
 	"blaze/internal/config"
 	"blaze/internal/markdown"
+	"blaze/internal/utils"
 )
 
 type SSG struct {
@@ -41,6 +42,19 @@ func NewSSG(contentDir, templateDir, outputDir, configPath string) (*SSG, error)
 	}, nil
 }
 
+func (s *SSG) shouldIgnore(relPath string) bool {
+	for _, pattern := range s.config.IgnorePatterns {
+		if strings.Contains(relPath, pattern) {
+			return true
+		}
+		matched, err := filepath.Match(pattern, filepath.Base(relPath))
+		if err == nil && matched {
+			return true
+		}
+	}
+	return false
+}
+
 func (s *SSG) Build() error {
 	fmt.Println("Building site...")
 
@@ -62,6 +76,10 @@ func (s *SSG) Build() error {
 		}
 
 		relPath, _ := filepath.Rel(s.ContentDir, path)
+
+		if s.shouldIgnore(relPath) {
+			return nil
+		}
 
 		if strings.HasSuffix(path, ".md") {
 			return s.processMarkdown(path, relPath)
@@ -106,7 +124,9 @@ func (s *SSG) processMarkdown(sourcePath, relPath string) error {
 		return err
 	}
 
-	outputPath := filepath.Join(s.OutputDir, strings.TrimSuffix(relPath, ".md")+".html")
+	dir := filepath.Dir(relPath)
+	slug := utils.PathToSlug(relPath)
+	outputPath := filepath.Join(s.OutputDir, dir, slug+".html")
 	if err := os.MkdirAll(filepath.Dir(outputPath), 0755); err != nil {
 		return err
 	}
