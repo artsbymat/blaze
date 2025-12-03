@@ -125,8 +125,9 @@ func (s *SSG) processMarkdown(sourcePath, relPath string) error {
 	}
 
 	dir := filepath.Dir(relPath)
+	sluggedDir := utils.SlugifyPath(dir)
 	slug := utils.PathToSlug(relPath)
-	outputPath := filepath.Join(s.OutputDir, dir, slug+".html")
+	outputPath := filepath.Join(s.OutputDir, sluggedDir, slug+".html")
 	if err := os.MkdirAll(filepath.Dir(outputPath), 0755); err != nil {
 		return err
 	}
@@ -140,7 +141,10 @@ func (s *SSG) processMarkdown(sourcePath, relPath string) error {
 }
 
 func (s *SSG) copyStatic(sourcePath, relPath string) error {
-	outputPath := filepath.Join(s.OutputDir, relPath)
+	dir := filepath.Dir(relPath)
+	base := filepath.Base(relPath)
+	sluggedDir := utils.SlugifyPath(dir)
+	outputPath := filepath.Join(s.OutputDir, sluggedDir, base)
 
 	if err := os.MkdirAll(filepath.Dir(outputPath), 0755); err != nil {
 		return err
