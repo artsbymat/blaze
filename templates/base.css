@@ -159,6 +159,11 @@ footer {
   user-select: none;
 }
 
+#explorer ul li a {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
 #explorer ul li details summary {
   outline: none;
   list-style: none;

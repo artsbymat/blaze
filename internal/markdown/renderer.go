@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"path/filepath"
 
+	"blaze/internal/components"
 	"blaze/internal/config"
 )
 
@@ -27,13 +28,19 @@ func NewRenderer(templateDir string, cfg *config.Config) (*Renderer, error) {
 }
 
 func (r *Renderer) Render(page *Page) (string, error) {
-	data := map[string]interface{}{
+	explorer := components.NewExplorer(r.config, "content")
+	explorerHTML, err := explorer.Generate()
+	if err != nil {
+		return "", err
+	}
+
+	data := map[string]any{
 		"PageTitle":       r.config.PageTitle,
 		"PageTitleSuffix": r.config.PageTitleSuffix,
 		"Locale":          r.config.Locale,
 		"BaseStyle":       "/base.css",
 		"Content":         template.HTML(page.Content),
-		"Explorer":        "",
+		"Explorer":        explorerHTML,
 		"GraphView":       "",
 		"TableOfContent":  "",
 		"Backlinks":       "",

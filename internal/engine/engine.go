@@ -119,6 +119,13 @@ func (s *SSG) processMarkdown(sourcePath, relPath string) error {
 		return err
 	}
 
+	if s.config.PublishMode == "explicit" {
+		publishValue := page.Metadata["publish"]
+		if publishValue != "true" {
+			return nil
+		}
+	}
+
 	html, err := s.renderer.Render(page)
 	if err != nil {
 		return err
