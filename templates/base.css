@@ -1,20 +1,112 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 
-* {
+*,
+::before,
+::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 :root {
-  --color-background: #e1c4a6;
+  --background: #e1c4a6;
+  --foreground: #0a0a0a;
+  --sidebar-bg: #dabb9a;
+  --border: #c0a487;
 }
 
-:root.dark {
-  --color-background: #372d29;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #372d29;
+    --foreground: #ccc2b7;
+    --sidebar-bg: #413632;
+    --border: #524743;
+  }
 }
 
 body {
-  background-color: var(--color-background);
+  background-color: var(--background);
   font-family: "Inter", sans-serif;
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+  grid-template-areas:
+    "left main right"
+    "left footer right";
+  min-height: 100vh;
+  color: var(--foreground);
+}
+
+#left-sidebar {
+  grid-area: left;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+}
+
+main {
+  grid-area: main;
+  padding: 1rem;
+}
+
+article {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+#right-sidebar {
+  grid-area: right;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--sidebar-bg);
+  border-left: 1px solid var(--border);
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  grid-area: footer;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* --- Tablet --- */
+@media (max-width: 1280px) {
+  body {
+    grid-template-columns: 300px 1fr;
+    grid-template-areas:
+      "left main"
+      "left right"
+      "left footer";
+  }
+
+  main article {
+    margin: 0;
+  }
+
+  #right-sidebar {
+    position: static;
+    height: auto;
+    overflow: visible;
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* --- Mobile --- */
+@media (max-width: 768px) {
+  body {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "main"
+      "footer";
+  }
+
+  #left-sidebar,
+  #right-sidebar {
+    display: none;
+  }
 }
