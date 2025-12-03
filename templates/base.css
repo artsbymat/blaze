@@ -13,6 +13,7 @@
   --foreground: #0a0a0a;
   --sidebar-bg: #dabb9a;
   --border: #c0a487;
+  --sidebar-line: #a08569;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,6 +22,7 @@
     --foreground: #ccc2b7;
     --sidebar-bg: #413632;
     --border: #524743;
+    --sidebar-line: #8c7f7b;
   }
 }
 
@@ -109,4 +111,113 @@ footer {
   #right-sidebar {
     display: none;
   }
+}
+
+/* --- Header --- */
+#logo {
+  width: 100%;
+  margin: 16px 0;
+}
+
+#logo a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  text-decoration: none;
+}
+
+#logo span {
+  color: var(--foreground);
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+/* --- Explorer --- */
+#explorer {
+  position: relative;
+  margin-top: 20px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 0 8px;
+}
+
+#explorer ul {
+  padding-left: 5px;
+  list-style: none;
+}
+
+#explorer ul li {
+  position: relative;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+#explorer ul li details summary {
+  outline: none;
+  list-style: none;
+}
+
+#explorer ul li summary::-webkit-details-marker {
+  display: none;
+}
+
+#explorer ul li::before {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 10px;
+  height: 1px;
+  margin: auto;
+  content: "";
+  background-color: var(--sidebar-line);
+}
+
+#explorer ul li:after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  content: "";
+  background-color: var(--sidebar-line);
+}
+
+#explorer ul li:hover::after {
+  background-color: var(--foreground);
+}
+
+#explorer ul li:hover::before {
+  background-color: var(--foreground);
+}
+
+#explorer ul li:last-child:after {
+  height: 15px;
+}
+
+#explorer ul li summary::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+
+  background-color: var(--foreground);
+  -webkit-mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6' stroke='black' fill='none'/></svg>")
+    center / contain no-repeat;
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6' stroke='black' fill='none'/></svg>")
+    center / contain no-repeat;
+
+  transition: transform 0.2s ease;
+}
+
+#explorer ul li details[open] > summary::before {
+  transform: rotate(90deg);
 }
