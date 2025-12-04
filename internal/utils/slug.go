@@ -21,10 +21,10 @@ func SlugifyPath(path string) string {
 	if path == "" || path == "." {
 		return ""
 	}
-	
+
 	parts := strings.Split(filepath.ToSlash(path), "/")
 	slugged := make([]string, 0, len(parts))
-	
+
 	for _, part := range parts {
 		if part == "" || part == "." {
 			continue
@@ -36,6 +36,6 @@ func SlugifyPath(path string) string {
 			slugged = append(slugged, sluggedPart)
 		}
 	}
-	
+
 	return filepath.Join(slugged...)
 }

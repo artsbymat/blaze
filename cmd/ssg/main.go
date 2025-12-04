@@ -91,13 +91,18 @@ func watchAndRebuild() {
 
 	watchFilesAndDirs := []string{"blaze.config.json", "content", "templates"}
 	for _, filesAndDirs := range watchFilesAndDirs {
-		filepath.Walk(filesAndDirs, func(path string, info os.FileInfo, err error) error {
+		err := filepath.Walk(filesAndDirs, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
-			watcher.Add(path)
+			if err := watcher.Add(path); err != nil {
+				log.Printf("Failed to watch %s: %v\n", path, err)
+			}
 			return nil
 		})
+		if err != nil {
+			log.Printf("Failed to walk %s: %v\n", filesAndDirs, err)
+		}
 	}
 
 	for {

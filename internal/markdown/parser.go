@@ -2,144 +2,109 @@ package markdown
 
 import (
 	"bytes"
-	"regexp"
+	"fmt"
 	"strings"
+
+	"github.com/yuin/goldmark"
+	meta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/parser"
+	"github.com/yuin/goldmark/text"
 )
 
 type Page struct {
-	Title    string
-	Content  string
-	Metadata map[string]string
+	Title       string
+	RawContent  []byte
+	HTMLContent string
+	Metadata    map[string]string
 }
 
-var (
-	h1Regex     = regexp.MustCompile(`(?m)^# (.+)$`)
-	h2Regex     = regexp.MustCompile(`(?m)^## (.+)$`)
-	h3Regex     = regexp.MustCompile(`(?m)^### (.+)$`)
-	boldRegex   = regexp.MustCompile(`\*\*(.+?)\*\*`)
-	italicRegex = regexp.MustCompile(`\*(.+?)\*`)
-	codeRegex   = regexp.MustCompile("`([^`]+)`")
-	linkRegex   = regexp.MustCompile(`\[([^\]]+)\]\(([^)]+)\)`)
-)
-
 func Parse(content []byte) (*Page, error) {
-	text := string(content)
+	markdown := goldmark.New(
+		goldmark.WithExtensions(
+			meta.Meta,
+		),
+	)
 
-	metadata, body := extractFrontmatter(text)
+	var buf bytes.Buffer
+	ctx := parser.NewContext()
+	if err := markdown.Convert(content, &buf, parser.WithContext(ctx)); err != nil {
+		return nil, err
+	}
 
-	html := convertToHTML(body)
+	metaData := meta.Get(ctx)
+	metadata := convertMetadata(metaData)
 
 	title := metadata["title"]
 	if title == "" {
 		title = "Untitled"
 	}
 
+	bodyContent := extractBody(string(content))
+
 	return &Page{
-		Title:    title,
-		Content:  html,
-		Metadata: metadata,
+		Title:       title,
+		RawContent:  []byte(bodyContent),
+		HTMLContent: buf.String(),
+		Metadata:    metadata,
 	}, nil
 }
 
-func extractFrontmatter(text string) (map[string]string, string) {
-	metadata := make(map[string]string)
+func ExtractFrontmatter(textStr string) (map[string]string, string) {
+	content := []byte(textStr)
+	markdown := goldmark.New(
+		goldmark.WithExtensions(
+			meta.Meta,
+		),
+	)
 
+	ctx := parser.NewContext()
+	p := markdown.Parser()
+	reader := text.NewReader(content)
+	_ = p.Parse(reader, parser.WithContext(ctx))
+
+	metaData := meta.Get(ctx)
+	metadata := convertMetadata(metaData)
+
+	body := extractBody(textStr)
+
+	return metadata, body
+}
+
+func extractBody(text string) string {
 	if !strings.HasPrefix(text, "---\n") {
-		return metadata, text
+		return text
 	}
 
 	parts := strings.SplitN(text[4:], "\n---\n", 2)
-	if len(parts) != 2 {
-		return metadata, text
+	if len(parts) == 2 {
+		return parts[1]
 	}
 
-	lines := strings.Split(parts[0], "\n")
-	for _, line := range lines {
-		if idx := strings.Index(line, ":"); idx > 0 {
-			key := strings.TrimSpace(line[:idx])
-			value := strings.TrimSpace(line[idx+1:])
-			metadata[key] = value
-		}
-	}
-
-	return metadata, parts[1]
-}
-
-func convertToHTML(markdown string) string {
-	var buf bytes.Buffer
-
-	lines := strings.Split(markdown, "\n")
-	inParagraph := false
-	inCodeBlock := false
-
-	for _, line := range lines {
-		line = strings.TrimRight(line, " ")
-
-		if strings.HasPrefix(line, "```") {
-			if inCodeBlock {
-				buf.WriteString("</code></pre>\n")
-				inCodeBlock = false
-			} else {
-				if inParagraph {
-					buf.WriteString("</p>\n")
-					inParagraph = false
-				}
-				buf.WriteString("<pre><code>")
-				inCodeBlock = true
-			}
-			continue
-		}
-
-		if inCodeBlock {
-			buf.WriteString(line + "\n")
-			continue
-		}
-
-		if strings.HasPrefix(line, "# ") {
-			if inParagraph {
-				buf.WriteString("</p>\n")
-				inParagraph = false
-			}
-			buf.WriteString("<h1>" + processInline(line[2:]) + "</h1>\n")
-		} else if strings.HasPrefix(line, "## ") {
-			if inParagraph {
-				buf.WriteString("</p>\n")
-				inParagraph = false
-			}
-			buf.WriteString("<h2>" + processInline(line[3:]) + "</h2>\n")
-		} else if strings.HasPrefix(line, "### ") {
-			if inParagraph {
-				buf.WriteString("</p>\n")
-				inParagraph = false
-			}
-			buf.WriteString("<h3>" + processInline(line[4:]) + "</h3>\n")
-		} else if line == "" {
-			if inParagraph {
-				buf.WriteString("</p>\n")
-				inParagraph = false
-			}
-		} else {
-			if !inParagraph {
-				buf.WriteString("<p>")
-				inParagraph = true
-			} else {
-				buf.WriteString(" ")
-			}
-			buf.WriteString(processInline(line))
-		}
-	}
-
-	if inParagraph {
-		buf.WriteString("</p>\n")
-	}
-
-	return buf.String()
-}
-
-func processInline(text string) string {
-	text = linkRegex.ReplaceAllString(text, `<a href="$2">$1</a>`)
-	text = boldRegex.ReplaceAllString(text, `<strong>$1</strong>`)
-	text = italicRegex.ReplaceAllString(text, `<em>$1</em>`)
-	text = codeRegex.ReplaceAllString(text, `<code>$1</code>`)
 	return text
+}
+
+func convertMetadata(metaData map[string]interface{}) map[string]string {
+	metadata := make(map[string]string)
+	for key, value := range metaData {
+		metadata[key] = fmt.Sprint(value)
+	}
+	return metadata
+}
+
+type MarkdownTransformer struct{}
+
+func NewTransformer() *MarkdownTransformer {
+	return &MarkdownTransformer{}
+}
+
+func (t *MarkdownTransformer) Name() string {
+	return "markdown"
+}
+
+func (t *MarkdownTransformer) Transform(content []byte) (string, map[string]string, error) {
+	page, err := Parse(content)
+	if err != nil {
+		return "", nil, err
+	}
+	return page.HTMLContent, page.Metadata, nil
 }

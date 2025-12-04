@@ -5,6 +5,7 @@
   "baseURL": "blaze.rhmt.my.id",
   "ignorePatterns": [
     ".obsidian",
+    ".git",
     "Bases",
     "Templates"
   ],

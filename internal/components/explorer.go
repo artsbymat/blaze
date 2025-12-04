@@ -1,13 +1,16 @@
 package components
 
 import (
-	"blaze/internal/config"
-	"blaze/internal/utils"
 	"fmt"
 	"html/template"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"blaze/internal/config"
+	"blaze/internal/markdown"
+	"blaze/internal/utils"
 )
 
 type Explorer struct {
@@ -23,11 +26,13 @@ func NewExplorer(cfg *config.Config, root string) *Explorer {
 }
 
 func (e *Explorer) shouldIgnore(name string) bool {
+	baseName := filepath.Base(name)
+
 	for _, pattern := range e.config.IgnorePatterns {
-		if strings.Contains(name, pattern) {
+		if name == pattern || baseName == pattern {
 			return true
 		}
-		matched, err := filepath.Match(pattern, name)
+		matched, err := filepath.Match(pattern, baseName)
 		if err == nil && matched {
 			return true
 		}
@@ -41,28 +46,8 @@ func (e *Explorer) isPublished(filePath string) bool {
 		return false
 	}
 
-	text := string(content)
-	if !strings.HasPrefix(text, "---\n") {
-		return false
-	}
-
-	parts := strings.SplitN(text[4:], "\n---\n", 2)
-	if len(parts) != 2 {
-		return false
-	}
-
-	lines := strings.Split(parts[0], "\n")
-	for _, line := range lines {
-		if idx := strings.Index(line, ":"); idx > 0 {
-			key := strings.TrimSpace(line[:idx])
-			value := strings.TrimSpace(line[idx+1:])
-			if key == "publish" && value == "true" {
-				return true
-			}
-		}
-	}
-
-	return false
+	metadata, _ := markdown.ExtractFrontmatter(string(content))
+	return metadata["publish"] == "true"
 }
 
 func (e *Explorer) Generate() (template.HTML, error) {
@@ -88,7 +73,8 @@ func (e *Explorer) generateTree(dir string) (template.HTML, error) {
 		if entry.IsDir() {
 			subHtml, err := e.generateTree(path)
 			if err != nil {
-				return "", err
+				log.Printf("Failed to generate tree for %s: %v\n", path, err)
+				continue
 			}
 			if strings.TrimSpace(string(subHtml)) == "<ul></ul>" {
 				continue
