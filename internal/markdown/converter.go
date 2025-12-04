@@ -1,6 +1,7 @@
 package markdown
 
 import (
+	"blaze/internal/markdown/extensions"
 	"bytes"
 
 	"github.com/yuin/goldmark"
@@ -18,6 +19,7 @@ func newGoldmark() goldmark.Markdown {
 			extension.Strikethrough,
 			extension.TaskList,
 			extension.Footnote,
+			extensions.ObsidianHighlight,
 			meta.Meta,
 		),
 		goldmark.WithParserOptions(

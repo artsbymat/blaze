@@ -11,6 +11,7 @@ Blaze supports text formating with the following syntax:
 - _Italic Text_
 - **_Bold Italic Text_**
 - ~~Strikethrough Text~~
+- ==Text Hightlighting==
 - `Code Text`
 ```
 
@@ -18,4 +19,5 @@ Blaze supports text formating with the following syntax:
 - _Italic Text_
 - **_Bold Italic Text_**
 - ~~Strikethrough Text~~
+- ==Text Hightlighting==
 - `Code Text`
