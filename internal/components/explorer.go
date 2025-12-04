@@ -40,14 +40,13 @@ func (e *Explorer) shouldIgnore(name string) bool {
 	return false
 }
 
-func (e *Explorer) isPublished(filePath string) bool {
+func (e *Explorer) getMetadata(filePath string) (map[string]string, error) {
 	content, err := os.ReadFile(filePath)
 	if err != nil {
-		return false
+		return nil, err
 	}
-
 	metadata, _ := markdown.ExtractFrontmatter(string(content))
-	return metadata["publish"] == "true"
+	return metadata, nil
 }
 
 func (e *Explorer) Generate() (template.HTML, error) {
@@ -81,18 +80,22 @@ func (e *Explorer) generateTree(dir string) (template.HTML, error) {
 			}
 			html += fmt.Sprintf("<li><details open><summary>%s</summary>%s</details></li>", entry.Name(), subHtml)
 		} else {
-			if !strings.HasSuffix(entry.Name(), ".md") {
+			metadata, err := e.getMetadata(path)
+			if err != nil {
 				continue
 			}
 
-			if e.config.PublishMode == "explicit" && !e.isPublished(path) {
+			if e.config.PublishMode == "explicit" && metadata["publish"] != "true" {
 				continue
 			}
 
 			relPath := strings.TrimPrefix(path, e.root+"/")
 			relPath = strings.TrimSuffix(relPath, ".md")
 			slugPath := utils.SlugifyPath(relPath) + ".html"
-			title := strings.TrimSuffix(entry.Name(), ".md")
+			title := metadata["title"]
+			if title == "" {
+				title = strings.TrimSuffix(entry.Name(), ".md")
+			}
 			html += fmt.Sprintf("<li><a href=\"/%s\">%s</a></li>", slugPath, title)
 		}
 	}
