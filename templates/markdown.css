@@ -1,0 +1,71 @@
+article h1,
+article h2,
+article h3,
+article h4 {
+  margin: 2.5rem 0 1.5rem 0;
+  line-height: 1.25;
+}
+
+article h5,
+article h6 {
+  margin: 1.5rem 0 1rem 0;
+  line-height: 1.25;
+  font-size: 1em;
+}
+
+article p {
+  margin: 1rem 0;
+}
+
+article a {
+  text-decoration: none;
+  color: var(--link);
+}
+
+article a:hover,
+article a:focus,
+article a:active {
+  text-decoration: underline;
+}
+
+article ul,
+article ol {
+  margin: 1rem 0;
+}
+
+article li {
+  margin: 0.5rem 0;
+}
+
+article ul,
+article ol {
+  padding-left: 1.5rem;
+}
+
+article ol {
+  list-style-type: decimal;
+}
+
+article ol ol {
+  list-style-type: lower-alpha;
+}
+
+article ol ol ol {
+  list-style-type: lower-roman;
+}
+
+article ul {
+  list-style-type: disc;
+}
+
+article ul ul {
+  list-style-type: circle;
+}
+
+article ul ul ul {
+  list-style-type: square;
+}
+
+article img {
+  max-width: 100%;
+}

@@ -14,6 +14,7 @@
   --sidebar-bg: #dabb9a;
   --border: #c0a487;
   --sidebar-line: #a08569;
+  --link: #005049;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,6 +24,7 @@
     --sidebar-bg: #413632;
     --border: #524743;
     --sidebar-line: #8c7f7b;
+    --link: #86a2ff;
   }
 }
 
@@ -50,7 +52,6 @@ body {
 
 main {
   grid-area: main;
-  padding: 1rem;
 }
 
 article {
@@ -73,6 +74,15 @@ footer {
   grid-area: footer;
   padding: 1rem;
   text-align: center;
+}
+
+footer a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
 
 /* --- Tablet --- */
