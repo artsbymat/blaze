@@ -1,8 +1,9 @@
 ---
-title: Welcome to Blaze
+title: Welcome to Blaze SSG
+publish: true
 ---
 
-# Welcome to Blaze SSG
+# Welcome to Blaze Static Site Generator
 
 Blaze is a **blazing fast** Static Site Generator built with Go, featuring hot reload capabilities for an amazing development experience.
 

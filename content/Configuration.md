@@ -1,3 +1,7 @@
+---
+publish: true
+---
+
 # General Configuration
 
 The configuration settings for Blaze can be found in `blaze.config.json`. Below are the details for each option:
