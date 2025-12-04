@@ -69,3 +69,22 @@ article ul ul ul {
 article img {
   max-width: 100%;
 }
+
+article table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  display: block;
+  overflow-x: auto;
+}
+
+article th,
+article td {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+}
+
+article th {
+  font-weight: 600;
+}

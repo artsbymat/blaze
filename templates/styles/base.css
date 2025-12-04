@@ -52,6 +52,7 @@ body {
 
 main {
   grid-area: main;
+  padding: 1rem;
 }
 
 article {

@@ -1,11 +1,9 @@
 package markdown
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 
-	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/text"
@@ -19,15 +17,11 @@ type Page struct {
 }
 
 func Parse(content []byte) (*Page, error) {
-	markdown := goldmark.New(
-		goldmark.WithExtensions(
-			meta.Meta,
-		),
-	)
-
-	var buf bytes.Buffer
+	converter := NewConverter()
 	ctx := parser.NewContext()
-	if err := markdown.Convert(content, &buf, parser.WithContext(ctx)); err != nil {
+
+	htmlContent, err := converter.ConvertWithContext(content, ctx)
+	if err != nil {
 		return nil, err
 	}
 
@@ -44,21 +38,17 @@ func Parse(content []byte) (*Page, error) {
 	return &Page{
 		Title:       title,
 		RawContent:  []byte(bodyContent),
-		HTMLContent: buf.String(),
+		HTMLContent: htmlContent,
 		Metadata:    metadata,
 	}, nil
 }
 
 func ExtractFrontmatter(textStr string) (map[string]string, string) {
 	content := []byte(textStr)
-	markdown := goldmark.New(
-		goldmark.WithExtensions(
-			meta.Meta,
-		),
-	)
+	md := newGoldmark()
 
 	ctx := parser.NewContext()
-	p := markdown.Parser()
+	p := md.Parser()
 	reader := text.NewReader(content)
 	_ = p.Parse(reader, parser.WithContext(ctx))
 
