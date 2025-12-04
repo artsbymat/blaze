@@ -78,7 +78,15 @@ func (e *Explorer) generateTree(dir string) (template.HTML, error) {
 			if strings.TrimSpace(string(subHtml)) == "<ul></ul>" {
 				continue
 			}
-			html += fmt.Sprintf("<li><details open><summary>%s</summary>%s</details></li>", entry.Name(), subHtml)
+
+			relPath := strings.TrimPrefix(path, e.root+"/")
+
+			html += fmt.Sprintf(
+				`<li><details data-key="%s"><summary>%s</summary>%s</details></li>`,
+				template.HTMLEscapeString(relPath),
+				entry.Name(),
+				subHtml,
+			)
 		} else {
 			metadata, err := e.getMetadata(path)
 			if err != nil {
@@ -96,7 +104,7 @@ func (e *Explorer) generateTree(dir string) (template.HTML, error) {
 			if title == "" {
 				title = strings.TrimSuffix(entry.Name(), ".md")
 			}
-			html += fmt.Sprintf("<li><a href=\"/%s\">%s</a></li>", slugPath, title)
+			html += fmt.Sprintf(`<li><a href="/%s">%s</a></li>`, slugPath, title)
 		}
 	}
 
