@@ -159,11 +159,14 @@ func triggerReload() {
 		}
 	}
 }
-
 func injectLiveReload(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
-	if path == "/" {
-		path = "/index.html"
+
+	if !strings.Contains(filepath.Base(path), ".") {
+		if path == "/" {
+			path = "/index"
+		}
+		path = path + ".html"
 	}
 
 	filePath := filepath.Join("public", path)
@@ -180,14 +183,7 @@ func injectLiveReload(w http.ResponseWriter, r *http.Request) {
 <script>
 (function() {
 	const ws = new WebSocket('ws://' + window.location.host + '/livereload');
-	ws.onmessage = function() {
-		console.log('Reloading...');
-		window.location.reload();
-	};
-	ws.onclose = function() {
-		console.log('Connection closed. Retrying...');
-		setTimeout(function() { window.location.reload(); }, 1000);
-	};
+	ws.onmessage = function() { window.location.reload(); };
 })();
 </script>
 </body>`
