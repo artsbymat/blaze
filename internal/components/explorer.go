@@ -100,6 +100,14 @@ func (e *Explorer) generateTree(dir string) (template.HTML, error) {
 			relPath := strings.TrimPrefix(path, e.root+"/")
 			relPath = strings.TrimSuffix(relPath, ".md")
 			slugPath := utils.SlugifyPath(relPath)
+
+			if slugPath == "index" {
+				slugPath = ""
+			} else if strings.HasSuffix(slugPath, "/index") {
+				slugPath = strings.TrimSuffix(slugPath, "/index")
+			}
+
+			fmt.Println(slugPath)
 			title := metadata["title"]
 			if title == "" {
 				title = strings.TrimSuffix(entry.Name(), ".md")

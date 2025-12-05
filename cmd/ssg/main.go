@@ -164,9 +164,16 @@ func injectLiveReload(w http.ResponseWriter, r *http.Request) {
 
 	if !strings.Contains(filepath.Base(path), ".") {
 		if path == "/" {
-			path = "/index"
+			path = "/index.html"
+		} else {
+			tryHTML := filepath.Join("public", path+".html")
+
+			if _, err := os.Stat(tryHTML); err == nil {
+				path = path + ".html"
+			} else {
+				path = filepath.Join(path, "index.html")
+			}
 		}
-		path = path + ".html"
 	}
 
 	filePath := filepath.Join("public", path)
