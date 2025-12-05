@@ -145,8 +145,15 @@ func (p *Pipeline) processFile(sourcePath, relPath, outputDir string) error {
 func (p *Pipeline) copyStatic(sourcePath, relPath, outputDir string) error {
 	dir := filepath.Dir(relPath)
 	base := filepath.Base(relPath)
+	ext := filepath.Ext(base)
+	nameWithoutExt := strings.TrimSuffix(base, ext)
+
+	slug := utils.PathToSlug(nameWithoutExt)
+	normalizedExt := strings.ToLower(ext)
+	normalizedBase := slug + normalizedExt
+
 	sluggedDir := utils.SlugifyPath(dir)
-	outputPath := filepath.Join(outputDir, sluggedDir, base)
+	outputPath := filepath.Join(outputDir, sluggedDir, normalizedBase)
 
 	if err := os.MkdirAll(filepath.Dir(outputPath), 0755); err != nil {
 		return err

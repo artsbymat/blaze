@@ -39,3 +39,9 @@ func SlugifyPath(path string) string {
 
 	return filepath.Join(slugged...)
 }
+
+func Slugify(s string) string {
+	s = strings.ToLower(s)
+	s = reNonAlnum.ReplaceAllString(s, "-")
+	return strings.Trim(s, "-")
+}
