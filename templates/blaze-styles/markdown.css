@@ -22,6 +22,20 @@ article a {
   color: var(--link);
 }
 
+article a.external::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  background-color: currentColor;
+  background-repeat: no-repeat;
+  -webkit-mask: url("/blaze-assets/external-link-indicator.svg") no-repeat
+    center / contain;
+  mask: url("/blaze-assets/external-link-indicator.svg") no-repeat center /
+    contain;
+}
+
 article a:hover,
 article a:focus,
 article a:active {

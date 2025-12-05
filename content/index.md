@@ -31,7 +31,3 @@ go run cmd/ssg/main.go serve
 ## How It Works
 
 Blaze watches your `blaze.config.json`, `content` and `templates` directories for changes. When you save a file, it automatically rebuilds and refreshes your browser.
-
-### Example Code
-
-Here's a simple example of _inline code_: `fmt.Println("Hello, Blaze!")`
