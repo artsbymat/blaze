@@ -23,6 +23,7 @@ func newGoldmark() goldmark.Markdown {
 			extensions.Mermaid,
 			extensions.Katex,
 			extensions.Wikilink(extensions.NewSlugResolver("content")),
+			extensions.Youtube,
 			meta.Meta,
 		),
 		goldmark.WithParserOptions(
