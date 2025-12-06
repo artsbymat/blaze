@@ -27,6 +27,8 @@ func newGoldmark() goldmark.Markdown {
 			extensions.Katex,
 			extensions.Wikilink(extensions.NewSlugResolver("content")),
 			extensions.Youtube,
+			extensions.HeadingShift,
+			extensions.Anchor,
 			highlighting.NewHighlighting(
 				highlighting.WithFormatOptions(
 					chromahtml.WithClasses(true),

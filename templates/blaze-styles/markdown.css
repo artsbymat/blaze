@@ -134,6 +134,16 @@ article code {
   padding: 0.1rem;
 }
 
+article :is(h2, h3, h4, h5, h6) a.anchor {
+  opacity: 0;
+  transition: 300ms;
+}
+
+article :is(h2, h3, h4, h5, h6):hover a.anchor {
+  opacity: 100;
+  transition: 300ms;
+}
+
 @media (prefers-color-scheme: dark) {
   article code {
     background-color: #282828;
