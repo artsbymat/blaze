@@ -47,5 +47,27 @@
     <footer>
       <p>Powered by <a href="https://github.com/artsbymat/blaze">Blaze</a></p>
     </footer>
+    {{ if .hasMermaid }}
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.esm.min.mjs";
+
+      const prefersDarkScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      if (prefersDarkScheme) {
+        mermaid.initialize({
+          theme: "dark",
+        });
+      } else {
+        mermaid.initialize({
+          theme: "base",
+          themeVariables: {
+            lineColor: "#f82929",
+          },
+        });
+      }
+    </script>
+    {{ end }}
   </body>
 </html>

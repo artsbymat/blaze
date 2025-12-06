@@ -1,6 +1,7 @@
 package markdown
 
 import (
+	"blaze/internal/markdown/extensions"
 	"fmt"
 	"strings"
 
@@ -27,6 +28,10 @@ func Parse(content []byte) (*Page, error) {
 
 	metaData := meta.Get(ctx)
 	metadata := convertMetadata(metaData)
+
+	if ctx.Get(extensions.MermaidContextKey) != nil {
+		metadata["hasMermaid"] = "true"
+	}
 
 	title := metadata["title"]
 	if title == "" {

@@ -20,6 +20,7 @@ func newGoldmark() goldmark.Markdown {
 			extension.TaskList,
 			extension.Footnote,
 			extensions.ObsidianHighlight,
+			extensions.Mermaid,
 			extensions.Wikilink(extensions.NewSlugResolver("content")),
 			meta.Meta,
 		),
