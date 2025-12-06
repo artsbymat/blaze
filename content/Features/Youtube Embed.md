@@ -2,8 +2,6 @@
 publish: true
 ---
 
-# Youtube Embed
-
 ```html
 <iframe
   width="560"

@@ -2,8 +2,6 @@
 publish: true
 ---
 
-# Mermaid Diagram
-
 Blaze supports Mermaid diagrams. Here's an example:
 
 ````markdown

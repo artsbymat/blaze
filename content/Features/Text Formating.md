@@ -2,8 +2,6 @@
 publish: true
 ---
 
-# Text Formating
-
 Blaze supports text formating with the following syntax:
 
 ```markdown

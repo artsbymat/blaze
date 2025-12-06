@@ -120,6 +120,11 @@ func (p *Pipeline) processFile(sourcePath, relPath, outputDir string) error {
 		}
 	}
 
+	// Add filename without extension to metadata
+	filename := filepath.Base(sourcePath)
+	filenameWithoutExt := strings.TrimSuffix(filename, filepath.Ext(filename))
+	metadata["_filename"] = filenameWithoutExt
+
 	finalHTML, err := p.renderer.RenderPage(htmlContent, metadata)
 	if err != nil {
 		return err

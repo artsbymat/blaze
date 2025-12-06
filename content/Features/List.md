@@ -2,8 +2,6 @@
 publish: true
 ---
 
-# List
-
 Blaze supports ordered and unordered lists also nested lists with the following syntax:
 
 ```markdown

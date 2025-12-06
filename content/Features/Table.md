@@ -2,8 +2,6 @@
 publish: true
 ---
 
-# Table
-
 Blaze supports tables with the following syntax:
 
 ```markdown

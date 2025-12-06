@@ -2,8 +2,6 @@
 publish: true
 ---
 
-# LaTeX Support
-
 Blaze supports $LaTeX$ using KaTeX.
 
 ```markdown

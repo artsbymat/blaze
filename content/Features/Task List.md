@@ -2,8 +2,6 @@
 publish: true
 ---
 
-# Task List
-
 Blaze supports task lists with the following syntax:
 
 ```markdown

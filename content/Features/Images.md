@@ -2,9 +2,7 @@
 publish: true
 ---
 
-# Images
-
-## Cloud Image
+# Cloud Image
 
 ```markdown
 ![Golang](https://go.dev/images/gophers/ladder.svg)
@@ -12,7 +10,7 @@ publish: true
 
 ![Golang](https://go.dev/images/gophers/ladder.svg)
 
-### Dynamic Image Size
+## Dynamic Image Size
 
 ```markdown
 ![Golang|300](https://go.dev/images/gophers/biplane.svg)
@@ -20,7 +18,7 @@ publish: true
 
 ![Golang|300](https://go.dev/images/gophers/biplane.svg)
 
-## Local Image
+# Local Image
 
 ```markdown
 ![[motorcycle.svg]]
@@ -28,7 +26,7 @@ publish: true
 
 ![[motorcycle.svg]]
 
-### Dynamic Image Size
+## Dynamic Image Size
 
 ```markdown
 ![[motorcycle.svg|200]]

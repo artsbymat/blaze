@@ -42,10 +42,20 @@ func (r *HTMLRenderer) RegenerateExplorer(contentDir string) error {
 }
 
 func (r *HTMLRenderer) Render(page *markdown.Page) (string, error) {
+	// Use the title from the page
+	title := page.Title
+	if title == "" {
+		title = "Untitled"
+	}
+
+	pageTitle := title
+
 	data := map[string]any{
-		"PageTitle":       r.config.PageTitle,
+		"PageTitle":       pageTitle,
 		"PageTitleSuffix": r.config.PageTitleSuffix,
+		"SiteName":        r.config.PageTitle,
 		"Locale":          r.config.Locale,
+		"Title":           title,
 		"Content":         template.HTML(page.HTMLContent),
 		"Explorer":        r.explorerCache,
 		"GraphView":       "",
@@ -66,10 +76,24 @@ func (r *HTMLRenderer) Render(page *markdown.Page) (string, error) {
 }
 
 func (r *HTMLRenderer) RenderPage(htmlContent string, metadata map[string]string) (string, error) {
+	// Determine the title: use frontmatter title if available, otherwise use filename
+	title := metadata["title"]
+	if title == "" {
+		title = metadata["_filename"]
+		if title == "" {
+			title = "Untitled"
+		}
+	}
+
+	// Determine the page title (for browser tab)
+	pageTitle := title
+
 	data := map[string]any{
-		"PageTitle":       r.config.PageTitle,
+		"PageTitle":       pageTitle,
 		"PageTitleSuffix": r.config.PageTitleSuffix,
+		"SiteName":        r.config.PageTitle,
 		"Locale":          r.config.Locale,
+		"Title":           title,
 		"Content":         template.HTML(htmlContent),
 		"Explorer":        r.explorerCache,
 		"GraphView":       "",
