@@ -111,6 +111,10 @@ footer a:hover {
 
 /* --- Mobile --- */
 @media (max-width: 768px) {
+  html {
+    scroll-padding: 4rem;
+  }
+
   #nav-btn {
     position: fixed;
     top: 16px;

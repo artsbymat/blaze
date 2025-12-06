@@ -124,6 +124,7 @@ article pre {
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
+  border-radius: 4px;
 }
 
 article code {
