@@ -177,6 +177,11 @@ footer a:hover {
 
   main {
     padding-top: 2rem;
+    overflow-x: hidden;
+  }
+
+  main article {
+    overflow-x: hidden;
   }
 
   #right-sidebar {

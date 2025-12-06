@@ -2,6 +2,7 @@ package markdown
 
 import (
 	"blaze/internal/markdown/extensions"
+	"blaze/internal/markdown/highlighting"
 	"bytes"
 
 	"github.com/yuin/goldmark"
@@ -9,6 +10,8 @@ import (
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
+
+	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
 )
 
 func newGoldmark() goldmark.Markdown {
@@ -24,6 +27,12 @@ func newGoldmark() goldmark.Markdown {
 			extensions.Katex,
 			extensions.Wikilink(extensions.NewSlugResolver("content")),
 			extensions.Youtube,
+			highlighting.NewHighlighting(
+				highlighting.WithFormatOptions(
+					chromahtml.WithClasses(true),
+				),
+				highlighting.WithGuessLanguage(true),
+			),
 			meta.Meta,
 		),
 		goldmark.WithParserOptions(

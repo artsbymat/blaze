@@ -6,6 +6,7 @@ publish: true
 
 Blaze supports Mermaid diagrams. Here's an example:
 
+````markdown
 ```mermaid
 graph TD;
     A-->B;
@@ -13,6 +14,31 @@ graph TD;
     B-->D;
     C-->D;
 ```
+````
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+````markdown
+```mermaid
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop HealthCheck
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts<br/>prevail...
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!
+```
+````
 
 ```mermaid
 sequenceDiagram

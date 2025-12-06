@@ -11,3 +11,7 @@ publish: true
 - [[Table]]
 - [[Images]]
 - [[Links]]
+- [[Code]]
+- [[Mermaid Diagram]]
+- [[LaTeX]]
+- [[Youtube Embed]]

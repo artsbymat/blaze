@@ -106,3 +106,68 @@ article th {
 article .katex {
   font-size: 1.2em;
 }
+
+article iframe {
+  margin: 1rem 0;
+  max-width: 100%;
+}
+
+article {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  overflow-x: hidden;
+}
+
+article pre {
+  padding: 0.1rem 0.5rem;
+  overflow-x: auto;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+article code {
+  font-family: "JetBrains Mono", monospace;
+  background-color: #fbf1c7;
+  color: #3c3836;
+  padding: 0.1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  article code {
+    background-color: #282828;
+    color: #d0d0d0;
+  }
+}
+
+.copy-code-container {
+  position: relative;
+  margin: 1rem 0;
+  max-width: 100%;
+  overflow-x: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.copy-code-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.copy-code-container:hover .copy-code-btn {
+  opacity: 1;
+}
+
+.copy-code-btn:hover {
+  background: var(--border);
+}
