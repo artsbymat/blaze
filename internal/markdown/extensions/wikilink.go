@@ -46,11 +46,12 @@ func (n *WikilinkNode) Dump(source []byte, level int) {
 type wikilinkParser struct{}
 
 var (
-	_open      = []byte("[[")
-	_embedOpen = []byte("![[")
-	_pipe      = []byte{'|'}
-	_hash      = []byte{'#'}
-	_close     = []byte("]]")
+	_open        = []byte("[[")
+	_embedOpen   = []byte("![[")
+	_pipe        = []byte{'|'}
+	_escapedPipe = []byte{'\\', '|'}
+	_hash        = []byte{'#'}
+	_close       = []byte("]]")
 )
 
 func (p *wikilinkParser) Trigger() []byte {
@@ -77,7 +78,13 @@ func (p *wikilinkParser) Parse(_ gast.Node, block text.Reader, _ parser.Context)
 	}
 
 	n := &WikilinkNode{Target: block.Value(seg), Embed: embed}
-	if idx := bytes.Index(n.Target, _pipe); idx >= 0 {
+
+	// Check for escaped pipe first (for use in tables: \|)
+	if idx := bytes.Index(n.Target, _escapedPipe); idx >= 0 {
+		n.Target = n.Target[:idx]
+		seg = seg.WithStart(seg.Start + idx + 2) // +2 to skip both \ and |
+	} else if idx := bytes.Index(n.Target, _pipe); idx >= 0 {
+		// Fall back to regular pipe
 		n.Target = n.Target[:idx]
 		seg = seg.WithStart(seg.Start + idx + 1)
 	}
@@ -226,11 +233,12 @@ func (r *slugResolver) ResolveWikilink(n *WikilinkNode) ([]byte, error) {
 		return []byte(target), nil
 	}
 
-	key := strings.ToLower(target)
+	targetWithoutExt := strings.TrimSuffix(target, ".md")
+	key := strings.ToLower(targetWithoutExt)
 	urlPath, found := r.index[key]
 
 	if !found {
-		slug := utils.PathToSlug(target)
+		slug := utils.PathToSlug(targetWithoutExt)
 		if slug == "" {
 			return nil, nil
 		}
