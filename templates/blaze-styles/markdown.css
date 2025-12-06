@@ -102,3 +102,7 @@ article td {
 article th {
   font-weight: 600;
 }
+
+article .katex {
+  font-size: 1.2em;
+}

@@ -33,6 +33,10 @@ func Parse(content []byte) (*Page, error) {
 		metadata["hasMermaid"] = "true"
 	}
 
+	if ctx.Get(extensions.KatexContextKey) != nil {
+		metadata["hasKatex"] = "true"
+	}
+
 	title := metadata["title"]
 	if title == "" {
 		title = "Untitled"
