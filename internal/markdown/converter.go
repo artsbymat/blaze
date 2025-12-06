@@ -29,6 +29,7 @@ func newGoldmark() goldmark.Markdown {
 			extensions.Youtube,
 			extensions.HeadingShift,
 			extensions.Anchor,
+			extensions.Callout,
 			highlighting.NewHighlighting(
 				highlighting.WithFormatOptions(
 					chromahtml.WithClasses(true),

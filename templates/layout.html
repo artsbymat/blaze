@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{.Locale}}">
   <head>
     <meta charset="UTF-8" />
@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="/blaze-styles/base.css" />
     <link rel="stylesheet" href="/blaze-styles/markdown.css" />
     <link rel="stylesheet" href="/blaze-styles/syntax.css" />
+    <link rel="stylesheet" href="/blaze-styles/callout.css" />
     <script src="/blaze-scripts/explorer.js" defer></script>
     <script src="/blaze-scripts/copy-code.js" defer></script>
+    <script src="/blaze-scripts/callout.js" defer></script>
     {{ if .hasKatex }}
     <link
       rel="stylesheet"
@@ -85,7 +87,7 @@
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.esm.min.mjs";
 
       const prefersDarkScheme = window.matchMedia(
-        "(prefers-color-scheme: dark)",
+        "(prefers-color-scheme: dark)"
       ).matches;
 
       if (prefersDarkScheme) {
